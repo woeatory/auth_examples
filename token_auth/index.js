@@ -1,7 +1,7 @@
 const express = require('express');
 const onFinished = require('on-finished');
 const bodyParser = require('body-parser');
-const { auth0Login, auth0LoginRefreshToken } = require('./auth0');
+const { auth0Login, auth0Signup, auth0LoginRefreshToken } = require('./auth0');
 const { Session } = require('./session');
 const path = require('path');
 const port = 3000;
@@ -86,7 +86,10 @@ app.post("/api/login", async (req, res) => {
       res.status(401).send();
     })
 });
-
+app.post("/api/signup", (req, res) => {
+  const { login, password } = req.body;
+  auth0Signup(login, password);
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
